@@ -3,13 +3,14 @@ package socialmedia;
 import java.io.IOException;
 
 /**
- * BadSocialMedia is a minimally compiling, but non-functioning implementor of
+ * SocialMedia is the functioning implementor of
  * the SocialMediaPlatform interface.
  * 
- * @author Diogo Pacheco
+ * @author Josh Roberts
+ * @author Ellie Vallard
  * @version 1.0
  */
-public class BadSocialMedia implements SocialMediaPlatform {
+public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
