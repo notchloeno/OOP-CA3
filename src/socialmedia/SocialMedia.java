@@ -25,7 +25,13 @@ public class SocialMedia implements SocialMediaPlatform {
 		return null;
 	}
 
-	public Account getAccount(int accountID){
+	// Originally this was going to throw HandleNotRecognisedException for normalisation's sake, but we decided
+	// that the inflexibility with error messages would make it not worth it. Another possibility would be to
+	// have an optional error message parsed in, but this would require refactoring, and strings being passed
+	// around for, likely, often no reason as exceptions should not be happening very often.
+	// Basically, we accept that there will be repeated code so that in the rare case an exception is thrown
+	// a more descriptive error message will be given.
+	public Account getAccount(int accountID) {
 		for (Account account : accountList){
 			if (account.getAccountID() == accountID){
 				return account;
@@ -94,27 +100,32 @@ public class SocialMedia implements SocialMediaPlatform {
 	    if (account == null){
 	    	throw new HandleNotRecognisedException("Account with handle cannot be found");
 		}
-		System.out.println("ID:" + String.valueOf(account.getAccountID()));
-	    System.out.println("Handle: " + handle);
+	    String outputString = "";
+		outputString += "ID:" + String.valueOf(account.getAccountID());
+	    outputString += "Handle: " + handle;
 	    String description = account.getDescription();
 	    if (description != null) {
-			System.out.println("Description:" + account.getDescription());
+	    	outputString += "Description:" + account.getDescription();
 		}
-	    System.out.println("Post count:" + String.valueOf(account.getPostCount()));
-	    System.out.println("Endorse count:" + String.valueOf(account.getEndorsementCount()));
-		return null;
+	    outputString += "Post count:" + String.valueOf(account.getPostCount());
+	    outputString += "Endorse count:" + String.valueOf(account.getEndorsementCount());
+		return outputString;
 	}
 
 	@Override
 	public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
-		// TODO Auto-generated method stub
-		return 0;
+	    Account account = getAccount(handle);
+	    if (account == null){
+	    	throw new HandleNotRecognisedException("Account with handle cannot be found");
+		}
+	    Post post = new Post(account, message);
+	    return post.getPostID();
 	}
 
 	@Override
 	public int endorsePost(String handle, int id)
 			throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
-		// TODO Auto-generated method stub
+
 		return 0;
 	}
 

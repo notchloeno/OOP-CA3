@@ -1,7 +1,5 @@
 package socialmedia;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,10 +54,10 @@ public class Account {
     // Method
 
     // Verify if the handle is legal
-    private void verifyHandle(@NotNull String handle) throws InvalidHandleException {
+    private void verifyHandle(String handle) throws InvalidHandleException {
         // Check if the handle  is valid
         int handleLength = handle.length();
-        if (handleLength < 1 || 30 < handleLength){
+        if (1 > handleLength || handleLength > 101){
             throw new InvalidHandleException("Handle must be between 1 and 30 characters");
         }
         if (handle.contains(" ")){
