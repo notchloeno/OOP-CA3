@@ -16,8 +16,8 @@ public class SocialMedia implements SocialMediaPlatform {
 	private List<Account> accountList;
 	private List<Post> postList;
 
-	public Account getAccount(String handle){
-		for (Account account : accountList){
+	public Account getAccount(String handle) {
+		for (Account account : accountList) {
 			if (account.getHandle().equals(handle)){
 				return account;
 			}
@@ -32,9 +32,18 @@ public class SocialMedia implements SocialMediaPlatform {
 	// Basically, we accept that there will be repeated code so that in the rare case an exception is thrown
 	// a more descriptive error message will be given.
 	public Account getAccount(int accountID) {
-		for (Account account : accountList){
+		for (Account account : accountList) {
 			if (account.getAccountID() == accountID){
 				return account;
+			}
+		}
+		return null;
+	}
+
+	public Post getPost(int postID) {
+		for (Post post : postList) {
+			if (post.getPostID() == postID) {
+				return post;
 			}
 		}
 		return null;
@@ -118,21 +127,50 @@ public class SocialMedia implements SocialMediaPlatform {
 	    if (account == null){
 	    	throw new HandleNotRecognisedException("Account with handle cannot be found");
 		}
-	    Post post = new Post(account, message);
+	    int messageLength = message.length();
+		if (1 > messageLength || messageLength > 100){
+			throw new InvalidPostException("Message must be between 1-100 characters");
+		}
+		Post post = new Post(account, message);
 	    return post.getPostID();
 	}
 
 	@Override
 	public int endorsePost(String handle, int id)
 			throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
+		Account account = getAccount(handle);
+		if (account == null) {
+			throw new HandleNotRecognisedException("Account with handle cannot be found");
+		}
 
-		return 0;
+		Post post = getPost(id);
+		if (post == null) {
+			throw new PostIDNotRecognisedException("Post with ID cannot be found");
+		}
+		if (post instanceof Endorsement) {
+			throw new NotActionablePostException("Cannot endorse an Endorsement");
+		}
+		// Generate the message for the endorsement
+		// Instantiate the Endorsement object
+		Endorsement endorsement = new Endorsement(account, post);
+		return endorsement.getPostID();
 	}
 
 	@Override
 	public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException,
 			PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
-		// TODO Auto-generated method stub
+		Account account = getAccount(handle);
+		if (account == null) {
+			throw new HandleNotRecognisedException("Account with handle cannot be found");
+		}
+
+		Post post = getPost(id);
+		if (post == null) {
+			throw new PostIDNotRecognisedException("Post with ID cannot be found");
+		}
+		if (post instanceof Endorsement) {
+			throw new NotActionablePostException("Cannot endorse an Endorsement");
+		}
 		return 0;
 	}
 

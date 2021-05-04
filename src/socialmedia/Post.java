@@ -11,17 +11,26 @@ public class Post {
     private List<Endorsement> endorsements;  // List of endorsements of this post
     private List<Comment> comments;  // List of comments on this post; doesn't count comments on comments
 
-    public Post(Account account, String message) throws InvalidPostException {
+    public Post(Account account, String message) {
         int messageLength = message.length();
-        if (1 > messageLength || messageLength > 100){
-            throw new InvalidPostException("Message must be between 1-100 characters");
-        }
-        this.postID = nextID++;
+        generatePostId();
         this.account = account;
         this.message = message;
     }
 
+    protected void generatePostId(){
+        this.postID = nextID++;
+    }
+
     public int getPostID() {
         return postID;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }
