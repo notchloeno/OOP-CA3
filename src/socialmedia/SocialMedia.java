@@ -58,30 +58,6 @@ public class SocialMedia implements SocialMediaPlatform {
 		}
 	}
 
-	/*
-	private List<Comment> getPostComments(Post post) {
-	    return postList
-				.stream()
-				.filter(p -> p.getClass().equals(Comment.class))
-				.map(c -> (Comment) c)  // This is required so the compiler is happy the list contains only Comments
-				.collect(Collectors.toList());
-	}
-
-	private int getPostCommentCount(Post post) {
-		return (int) postList
-				.stream()
-				.filter(p -> (p instanceof Comment && !p.isDeleted()))
-				.count();
-	}
-
-	private int getPostEndorsementCount(Post post) {
-		return (int) postList
-				.stream()
-				.filter(p -> (p instanceof Endorsement && !p.isDeleted()))
-				.count();
-	}
-	*/
-
 	@Override
 	public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
         createAccount(handle, null);
@@ -113,7 +89,7 @@ public class SocialMedia implements SocialMediaPlatform {
 	}
 
 	public void removeAccount(Account account){
-
+	    account.delete();
 	}
 
 	@Override

@@ -32,6 +32,9 @@ public class Account {
 
     public void delete(){
         this.deleted = true;
+        for (Post post : posts) {
+            post.delete();
+        }
     }
 
     // Getters/Setters
