@@ -1,5 +1,6 @@
 package socialmedia;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,7 +10,8 @@ public class Account {
     private static int nextID;  // Incrementer for accountID
     private String handle;  // "Username" of the account
     private String description;  // "Bio" of the account
-    private List<Post> posts;  // All the posts (including comments and endorsements) associated with this Account
+    private List<Post> posts = new ArrayList<>();  // All the posts (including comments and endorsements) associated with this Account
+    private boolean deleted = false;
 
     // Constructors
 
@@ -28,6 +30,10 @@ public class Account {
         this.description = description;
     }
 
+    public void delete(){
+        this.deleted = true;
+    }
+
     // Getters/Setters
 
     public String getHandle() {
@@ -41,6 +47,10 @@ public class Account {
 
     public int getAccountID() {
         return accountID;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 
     public String getDescription() {
@@ -72,7 +82,14 @@ public class Account {
     public int getEndorsementCount() {
         return (int) posts
                 .stream()
-                .filter(p -> p instanceof Endorsement)
+                .filter(p -> (p instanceof Endorsement && !p.isDeleted()))
+                .count();
+    }
+
+    public int getCommentCount() {
+        return (int) posts
+                .stream()
+                .filter(p -> (p instanceof Comment && !p.isDeleted()))
                 .count();
     }
 }

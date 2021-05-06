@@ -1,7 +1,14 @@
 package socialmedia;
 
 public class Comment extends Post {
-    public Comment(Account account, String message) {
+    private Post referencePost;
+
+    public Comment(Account account, String message, Post referencePost) {
         super(account, message);
+        this.referencePost = referencePost;
+    }
+
+    public Post getReferencePost() {
+        return referencePost;
     }
 }

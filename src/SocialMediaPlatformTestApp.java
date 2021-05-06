@@ -1,8 +1,4 @@
-import socialmedia.AccountIDNotRecognisedException;
-import socialmedia.SocialMedia;
-import socialmedia.IllegalHandleException;
-import socialmedia.InvalidHandleException;
-import socialmedia.SocialMediaPlatform;
+import socialmedia.*;
 
 /**
  * A short program to illustrate an app testing some minimal functionality of a
@@ -25,6 +21,31 @@ public class SocialMediaPlatformTestApp {
 		System.out.println("The system compiled and started the execution...");
 
 		SocialMediaPlatform platform = new SocialMedia();
+
+		try {
+			platform.createAccount("bosh", "heehoo");
+			platform.createAccount("rachel", "i am helping!");
+			int postID = platform.createPost("bosh", "peepeepoopoo");
+			int commentID = platform.commentPost("bosh", postID, "ooo very nice heehehehehehe");
+			platform.commentPost("bosh", commentID, "first tier");
+			platform.commentPost("rachel", 2, "hello!!!!");
+			platform.commentPost("bosh", commentID, "second tier");
+			int endorsementID = platform.endorsePost("bosh", 3);
+			System.out.println(platform.showPostChildrenDetails(0));
+		} catch (IllegalHandleException e) {
+			e.printStackTrace();
+		} catch (InvalidHandleException e) {
+			e.printStackTrace();
+		} catch (HandleNotRecognisedException e) {
+			e.printStackTrace();
+		} catch (InvalidPostException e) {
+			e.printStackTrace();
+		} catch (PostIDNotRecognisedException e) {
+			e.printStackTrace();
+		} catch (NotActionablePostException e) {
+			e.printStackTrace();
+		}
+
 
 		assert (platform.getNumberOfAccounts() == 0) : "Innitial SocialMediaPlatform not empty as required.";
 		assert (platform.getTotalOriginalPosts() == 0) : "Innitial SocialMediaPlatform not empty as required.";
